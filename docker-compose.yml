@@ -1,0 +1,78 @@
+services:
+  pg:
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - vacancy_net
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U user -d vacancies" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer
+    ports:
+      - "8080:8080"
+    networks:
+      - vacancy_net
+
+  pgadmin:
+    image: dpage/pgadmin4
+    env_file:
+      - .env
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - "5050:80"
+    networks:
+      - vacancy_net
+
+#  backend:
+#    build:
+#      context: .
+#    container_name: vacancy_backend
+#    ports:
+#      - "8000:8010"
+#    env_file:
+#      - .env
+#    volumes:
+#      - ./:/app
+#    depends_on:
+#      pg:
+#        condition: service_healthy
+#      vpn:
+#        condition: service_started
+#    networks:
+#      - vacancy_net
+#
+#  alembic:
+#    build:
+#      context: .
+#    command: alembic upgrade head
+#    depends_on:
+#      pg:
+#        condition: service_healthy
+#    environment:
+#      DB_URL: postgresql+asyncpg://user:password@pg:5432/eksmo
+#    volumes:
+#      - ./:/app
+#    working_dir: /app
+#    networks:
+#      - eksmo_net
+
+volumes:
+  pgdata:
+
+networks:
+  vacancy_net:

@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "hh-pulse"
+version = "0.1.0"
+description = ""
+authors = ["natalia_levant <an_smir@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.116.1"
+uvicorn = "^0.35.0"
+pydantic = "^2.11.7"
+pydantic-settings = "^2.10.1"
+sqlalchemy = "^2.0.43"
+asyncpg = "^0.30.0"
+alembic = "^1.16.4"
+authlib = "^1.6.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
