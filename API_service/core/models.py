@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
 from sqlalchemy.dialects.postgresql import UUID, JSON
 from enum import Enum
+from sqlalchemy.dialects.postgresql import ENUM as PgEnum
 import uuid
 
 Base = declarative_base()

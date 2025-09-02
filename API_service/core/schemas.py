@@ -6,7 +6,7 @@ from pydantic.config import ConfigDict
 from datetime import datetime
 from typing import List, Optional, Dict, Any, Union
 from .models import VacancySource
-
+from uuid import UUID
 
 
 
@@ -49,7 +49,7 @@ class UserRead(UserBase):
     """
 
     id: int = Field(..., description="Уникальный идентификатор пользователя")
-    public_user_id: str = Field(..., description="Публичный идентификатор пользователя")
+    public_user_id: UUID = Field(..., description="Публичный идентификатор пользователя")
     email: EmailStr = Field(..., description="Email пользователя")
     is_active: bool = Field(..., description="Активен ли аккаунт")
     created_at: datetime = Field(..., description="Дата и время создания аккаунта")
