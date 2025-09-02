@@ -3,7 +3,7 @@ from typing import Optional, Any, Coroutine
 
 from ..config import settings
 from ..core.db_helper import db_helper
-from ..core.model import RefreshToken, User
+from ..core.models import RefreshToken, User
 from ..core.schemas import UserCreate
 from fastapi import Depends, HTTPException, status
 from jose import jwt, JWTError
@@ -190,18 +190,6 @@ class AuthService:
             "token_type": "bearer",
             "user_id": user.id
         }
-
-    @classmethod
-    async def check_user_role(
-        cls, user_id: int, required_role: str, session: AsyncSession
-    ) -> None:
-        stmt = select(Role).join(Role.users).where(User.id == user_id)
-        result = await session.execute(stmt)
-        roles = [r.name for r in result.scalars().all()]
-        if required_role not in roles:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN, detail="Недостаточно прав"
-            )
 
     @classmethod
     async def verify_refresh_token(
